@@ -53,11 +53,11 @@ def main():
     with PyTessBaseAPI(path='/usr/share/tessdata', psm=PSM.OSD_ONLY) as api:
         frame_count = 0
         while(True):
-            if frame_count < 10:
+            if frame_count >= 10:
                 # Capture the video frame
                 # by frame
                 ret, frame = vid.read()
-            
+                frame_count = 0
                 # Display the resulting frame
                 #cv2.imshow('frame', frame)
 
@@ -68,6 +68,8 @@ def main():
                 api.SetImageFile(final)
                 # Get characters from image
                 print(api.GetUTF8Text())
+            else:
+                frame_count += 1
 
             # the 'q' button is set as the
             # quitting button you may use any
