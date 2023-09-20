@@ -1,8 +1,9 @@
 import cv2 
 import pytesseract
 import numpy as np
-import preprocessing_utils as ppu
+from preprocessing_utils import get_grayscale, deskew, thresholding, remove_noise
 from PIL import Image
+from blur_detection import detect_blur_fft
 
 # Page segmentation mode 
 # --psm 10 = Treat image as a single character
@@ -17,14 +18,18 @@ while True:
     if not ret:
         print("Can't receive frame (stream end?). Exiting ...")
         break
-    # Our operations on the frame come here
-    frame = ppu.deskew(frame)
-    frame = ppu.remove_noise(frame)
-    frame = ppu.get_grayscale(frame)
-    frame = ppu.thresholding(frame)
 
-    # Display the resulting frame
-    cv2.imshow('frame', frame)
+    # Detect if image is a not blurred
+    (mean, blurry) = detect_blur_fft(frame)
+    if not blurry:
+        # Preprocessing
+        frame = deskew(frame)
+        frame = remove_noise(frame)
+        frame = get_grayscale(frame)
+        frame = thresholding(frame)
+        # Display the resulting frame
+        results = pytesseract.image_to_string(frame)
+    
     if cv2.waitKey(1) == ord('q'):
         break
 
