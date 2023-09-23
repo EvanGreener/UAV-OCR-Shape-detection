@@ -9,7 +9,7 @@ Image recognition program for UAV Concordia. Goal is to classify characters and 
 - Python extension from microsoft installed in VS code
 - pip (python package manager) is installed
 
-## (WITH CUDA) Installation instructions on Jetson or Ubuntu WSL
+## (WITH CUDA) Installation instructions on Ubuntu WSL
 If you're using Ubuntu WSL, also install cuda accelerate driver for WSL
 https://dev.to/naruaika/using-opencv-on-windows-subsystem-for-linux-1ako
 1. Install CUDA toolkit
